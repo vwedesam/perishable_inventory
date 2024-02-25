@@ -1,0 +1,208 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "perishable_inventory_server",
+      "description": "A Nodejs Server for managing perishable inventory",
+      "contact": {
+        "email": "vwedesamdev@gmail.com"
+      },
+      "version": "1.0.11"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:4040"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Item"
+      }
+    ],
+    "paths": {
+      "/{item}/add": {
+        "post": {
+          "tags": [
+            "Item"
+          ],
+          "summary": "Add a lot of {item} to the system",
+          "description": "",
+          "operationId": "AddItem",
+          "parameters": [
+            {
+              "name": "item",
+              "in": "path",
+              "description": "Name of item that needs to be added",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Add/Create new item in the store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddItem"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "successfully added item",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/emptyResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/{item}/sell": {
+        "post": {
+          "tags": [
+            "Item"
+          ],
+          "summary": "Add a lot of :item to the system",
+          "description": "",
+          "operationId": "SellItem",
+          "parameters": [
+            {
+              "name": "item",
+              "in": "path",
+              "description": "Name of item that needs to be sold",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "sell item body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SellItem"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "successfully sold item",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/emptyResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/{item}/quantity": {
+        "get": {
+          "tags": [
+            "Item"
+          ],
+          "summary": "get non-expired quantity of the item from the system",
+          "description": "",
+          "operationId": "GetItemQuantity",
+          "parameters": [
+            {
+              "name": "item",
+              "in": "path",
+              "description": "Name of item that needs to be created",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/getItemQuantityResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid tag value"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "AddItem": {
+          "required": [
+            "quantity",
+            "expiry"
+          ],
+          "type": "object",
+          "properties": {
+            "quantity": {
+              "type": "integer",
+              "format": "int64",
+              "example": 20
+            },
+            "expiry": {
+              "type": "integer",
+              "format": "int64",
+              "example": 10000
+            }
+          }
+        },
+        "SellItem": {
+          "required": [
+            "quantity"
+          ],
+          "type": "object",
+          "properties": {
+            "quantity": {
+              "type": "integer",
+              "format": "int64",
+              "example": 20
+            }
+          }
+        },
+        "emptyResponse": {
+          "type": "object"
+        },
+        "getItemQuantityResponse": {
+          "type": "object",
+          "properties": {
+            "quantity": {
+              "type": "integer",
+              "format": "int64",
+              "example": 20
+            },
+            "validTill": {
+              "type": "integer",
+              "format": "int64",
+              "example": 10000
+            }
+          }
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,43 @@
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// ------        migrate and Apply changes   ----------
+//                    | | | | | |
+//                     | | | | |
+//                      | | | |
+//                       | | |
+//                        | |
+//                         |
+// ----- npx prisma migrate dev --preview-feature ------
+// ----  npx prisma generate
+// ----  prisma db seed --preview-feature
+
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model InventoryItem {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  lots       Lot[]
+  createdAt  DateTime @default(now())
+
+  @@map("inventoryItems")
+}
+
+model Lot {
+  id         Int      @id @default(autoincrement())
+  quantity   Int
+  expiry     DateTime
+  itemId     Int
+  item       InventoryItem @relation(fields: [itemId], references: [id])
+  createdAt  DateTime @default(now())
+
+  @@map("lots")
+}
