@@ -28,6 +28,8 @@ model InventoryItem {
   lots       Lot[]
   createdAt  DateTime @default(now())
 
+  @@index([name], name: "idx_item_name") // Add index to the name column
+
   @@map("inventoryItems")
 }
 
@@ -38,6 +40,8 @@ model Lot {
   itemId     Int
   item       InventoryItem @relation(fields: [itemId], references: [id])
   createdAt  DateTime @default(now())
+
+  @@index([expiry], name: "idx_lot_expiry")     // Add index to the expiry column
 
   @@map("lots")
 }
