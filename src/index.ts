@@ -6,7 +6,7 @@ const cron = require('node-cron');
 const { spawn } = require('child_process');
 
 // Schedule the cleanup job to run every 5 minutes
-cron.schedule('* */5 * * * *', () => {
+cron.schedule('0 */5 * * * *', () => {
   console.log('Running cleanup job...');
   const cleanupProcess = spawn('npm', ['run', 'db:cleanup'], { stdio: 'inherit' });
 
