@@ -1,16 +1,17 @@
-import type { Request, Response } from 'express';
+import type { Response } from 'express';
 import prisma from '../prisma';
 import type { IAddItemRequest, IGetItemQuantityRequest, ISellItemRequest } from 'src/types';
+const asyncHandler = require('express-async-handler')
 
 /**
- * 
+ * Add a lot of item to the system
  * 
  * @param req HTTPs Request
  * @param res HTTPs Response
  * 
  * @returns {}
  */
-const addItem = async (req: IAddItemRequest, res: Response) => {
+const addItem = asyncHandler(async (req: IAddItemRequest, res: Response) => {
 
   const { quantity, expiry } = req.body;
   const { item } = req.params;
@@ -38,16 +39,17 @@ const addItem = async (req: IAddItemRequest, res: Response) => {
 
   return res.json({});
 
-}
+})
 
 /**
+ * Sell a quantity of an item and reduce its inventory from the database.
  * 
  * @param req HTTPs Request
  * @param res HTTPs Response
  * 
  * @returns {}
  */
-const sellItem = async (req: ISellItemRequest, res: Response) => {
+const sellItem = asyncHandler(async (req: ISellItemRequest, res: Response) => {
 
   const { quantity } = req.body;
   const { item } = req.params;
@@ -85,16 +87,17 @@ const sellItem = async (req: ISellItemRequest, res: Response) => {
   }
 
   return res.json({});
-}
+})
 
 /**
+ * Get non-expired quantity of the item from the system
  * 
  * @param req HTTPs Request
  * @param res HTTPs Response
  * 
  * @returns 
  */
-const getItemQuantity = async (req: IGetItemQuantityRequest, res: Response) => {
+const getItemQuantity = asyncHandler(async (req: IGetItemQuantityRequest, res: Response) => {
 
   const { item } = req.params;
 
@@ -110,10 +113,8 @@ const getItemQuantity = async (req: IGetItemQuantityRequest, res: Response) => {
     },
   });
 
-  console.log(inventoryItem)
-
   if (inventoryItem && inventoryItem.lots.length > 0) {
-
+    // validTill - lots closest to expiration
     const validTill = inventoryItem?.lots[0]?.expiry.getTime();
     const quantity = inventoryItem.lots.reduce((acc, lot) => acc + lot.quantity, 0);
 
@@ -131,7 +132,7 @@ const getItemQuantity = async (req: IGetItemQuantityRequest, res: Response) => {
 
   }
 
-}
+})
 
 export default {
   addItem,

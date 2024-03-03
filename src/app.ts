@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import { compressFilter, addItemSchema, sellItemSchema } from './utils';
 import ItemController from './controller/itemController';
-import { schemaValidator } from './middleware';
+import { errorMiddleware, notFoundMiddleware, schemaValidator } from './middleware';
 import { env } from './config';
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../swagger.json');
@@ -35,5 +35,9 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.post("/:item/add", schemaValidator(addItemSchema), ItemController.addItem);
 app.post("/:item/sell", schemaValidator(sellItemSchema), ItemController.sellItem);
 app.get("/:item/quantity", ItemController.getItemQuantity);
+
+// error handlers
+app.use(errorMiddleware);
+app.use(notFoundMiddleware);
 
 export default app;
