@@ -63,7 +63,7 @@ const sellItem = asyncHandler(async (req: ISellItemRequest, res: Response) => {
     },
   });
 
-  const nonExpiredQuantity = inventoryItem?.lots.reduce((total, _lots)=> total += _lots.quantity, 0) || 0!;
+  const nonExpiredQuantity = inventoryItem?.lots?.reduce((total, _lot)=> total += _lot?.quantity, 0) || 0!;
 
   if(!inventoryItem || quantity > nonExpiredQuantity){
     return res.status(422).json({
@@ -79,7 +79,7 @@ const sellItem = asyncHandler(async (req: ISellItemRequest, res: Response) => {
     for (const lot of inventoryItem.lots) {
 
       if (lot.quantity >= remainingQuantity) {
-
+        // lot can accomodate quantity
         await prisma.lot.update({
           where: { id: lot.id },
           data: { quantity: { decrement: remainingQuantity } },
