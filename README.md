@@ -52,6 +52,7 @@ A simple Nodejs Server for managing perishable inventory
 - ***API Documentation*** with `Swagger`
 - ***Testing*** with `Jest` and `Supertest`
 - ***Cross-Origin Resource-Sharing*** enabled using `cors`
+- ***Rate Limit*** enabled using `express-rate-limit`
 - ***Secured HTTP Headers*** using `helmet`
 - ***Logging*** with `winston`
 - ***Environment variables*** using `dotenv`

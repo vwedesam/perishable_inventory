@@ -6,6 +6,7 @@ import { compressFilter, addItemSchema, sellItemSchema } from './utils';
 import ItemController from './controller/itemController';
 import { errorMiddleware, notFoundMiddleware, schemaValidator } from './middleware';
 import { env } from './config';
+import { limiter } from './middleware/rateLimiter';
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../swagger.json');
 
@@ -27,6 +28,9 @@ app.use(helmet());
 
 // Compression is used to reduce the size of the response body
 app.use(compression({ filter: compressFilter }));
+
+// rate limiter
+app.use(limiter);
 
 // Swagger docs
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
