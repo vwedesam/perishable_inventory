@@ -22,7 +22,7 @@ const addItem = asyncHandler(async (req: IAddItemRequest, res: Response) => {
       lots: {
         create: {
           quantity,
-          expiry: new Date(new Date().setMilliseconds(expiry)),
+          expiry: new Date(Date.now() + expiry),
         },
       },
     },
@@ -31,7 +31,7 @@ const addItem = asyncHandler(async (req: IAddItemRequest, res: Response) => {
       lots: {
         create: {
           quantity,
-          expiry: new Date(expiry),
+          expiry: new Date(Date.now() + expiry),
         },
       },
     },
@@ -63,6 +63,15 @@ const sellItem = asyncHandler(async (req: ISellItemRequest, res: Response) => {
     },
   });
 
+  const nonExpiredQuantity = inventoryItem?.lots.reduce((total, _lots)=> total += _lots.quantity, 0) || 0!;
+
+  if(!inventoryItem || quantity > nonExpiredQuantity){
+    return res.status(422).json({
+      status: 'failed',
+      message: `Can't sell more than the non-expired quantity of the ${item} item. avaliable quantity ${nonExpiredQuantity}`
+    })
+  }
+
   if (inventoryItem) {
 
     let remainingQuantity = quantity;
@@ -78,7 +87,7 @@ const sellItem = asyncHandler(async (req: ISellItemRequest, res: Response) => {
         break;
 
       } else {
-
+        // sell quantity is less than quantity in a particular lot
         await prisma.lot.delete({ where: { id: lot.id } });
         remainingQuantity -= lot.quantity;
 
