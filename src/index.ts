@@ -19,7 +19,7 @@ cron.schedule('0 */5 * * * *', () => {
 });
 
 const server = app.listen(parseInt(env.PORT), () => {
-  logger.info(`Server is running on Port: ${env.PORT}`);
+  logger.info(`Server running on port: ${env.PORT}`);
 });
 
 process.on('SIGTERM', () => {
@@ -29,4 +29,15 @@ process.on('SIGTERM', () => {
     logger.info('Http server closed.');
     process.exit(err ? 1 : 0);
   });
+});
+
+process.on('uncaughtException', (ex) => {
+  logger.error(`Uncaught Exception: ${ex.message}`, ex);
+  process.exit(1); // Optionally, exit the process after logging the exception
+});
+
+// Log unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+  logger.error('Unhandled Rejection:', reason);
+  logger.error('Unhandled Rejection at:', promise);
 });
