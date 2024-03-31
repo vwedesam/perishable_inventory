@@ -1,6 +1,6 @@
 import type { Response } from 'express';
 import prisma from '../prisma';
-import type { IAddItemRequest, IGetItemQuantityRequest, ISellItemRequest } from 'src/types';
+import type { IAddItemRequest, IGetItemQuantityRequest, ISellItemRequest } from '../types';
 const asyncHandler = require('express-async-handler')
 
 /**

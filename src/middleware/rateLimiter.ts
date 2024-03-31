@@ -1,4 +1,5 @@
 import rateLimit from "express-rate-limit";
+import { logger } from "./logger";
 
 export const limiter = rateLimit({
 	windowMs: 1 * 60 * 1000, // 1 minutes
@@ -6,10 +7,12 @@ export const limiter = rateLimit({
 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     handler: (req, res, next, options) =>{
-        let retryAfter = res.get('RateLimit-Reset')?.toString()!;
+        const retryAfter = res.get('RateLimit-Reset')?.toString()!;
+        const msg = `Too many requests, please try again in ${retryAfter} sec(s).`;
+        logger.warn(`ip: ${req?.ip}, msg: ${msg}`);
 		return res.status(options.statusCode).send({
             status: "failed",
-            message: `Too many requests, please try again in ${retryAfter} sec(s).`
+            message: msg
         })
     }
 })

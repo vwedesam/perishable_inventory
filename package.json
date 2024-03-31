@@ -12,7 +12,7 @@
     "db:cleanup": "node ./dist/cron-jobs/cleanup.js",
     "migrate": "npx prisma migrate dev --schema=./src/prisma/schema.prisma ",
     "generate": "npx prisma generate --schema=./src/prisma/schema.prisma ",
-    "dev": "tsc --project './tsconfig.json' --watch &NODE_ENV=development DEBUG=express:* nodemon .",
+    "dev": "npm run watch & NODE_ENV=development DEBUG=express:* nodemon .",
     "build": "tsc --project './tsconfig.json'",
     "start": "npm run build && NODE_ENV=production node .",
     "watch": "tsc --project './tsconfig.json' --watch",
@@ -36,7 +36,8 @@
     "joi": "^17.12.2",
     "node-cron": "^3.0.3",
     "reflect-metadata": "^0.2.1",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "winston-syslog": "^2.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",

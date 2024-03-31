@@ -1,6 +1,6 @@
 import type { Schema } from "joi";
 import type { RequestHandler } from "express";
-import type { CustomError, JoiError, ValidationError } from "src/types";
+import type { CustomError, JoiError, ValidationError } from "../types";
 
 const validationOptions = {
   abortEarly: false,

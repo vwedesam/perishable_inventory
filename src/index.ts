@@ -6,20 +6,20 @@ const { spawn } = require('child_process');
 
 // Schedule the cleanup job to run every 5 minutes
 cron.schedule('0 */5 * * * *', () => {
-  console.log('Running cleanup job...');
+  logger.info('Running cleanup job...');
   const cleanupProcess = spawn('npm', ['run', 'db:cleanup'], { stdio: 'inherit' });
 
   cleanupProcess.on('close', (code: any) => {
     if (code === 0) {
-      console.log('Cleanup job completed successfully.');
+      logger.info('Cleanup job completed successfully.');
     } else {
-      console.error(`Cleanup job failed with exit code ${code}.`);
+      logger.error(`Cleanup job failed with exit code ${code}.`);
     }
   });
 });
 
 const server = app.listen(parseInt(env.PORT), () => {
-  logger.log('info', `Server is running on Port: ${env.PORT}`);
+  logger.info(`Server is running on Port: ${env.PORT}`);
 });
 
 process.on('SIGTERM', () => {

@@ -1,19 +1,13 @@
 import { env } from '../config';
-import { createLogger, format, transports } from 'winston';
+const os = require('os');
+const { createLogger, format, transports } = require('winston');
+require('winston-syslog');
 
 export const logger = createLogger({
   level: env.NODE_ENV === 'production' ? 'info' : 'debug',
   format: format.json(),
-  defaultMeta: { service: 'item-service' },
-  transports: [
-    //
-    // - Write all logs with importance level of `error` or less to `error.log`
-    // - Write all logs with importance level of `info` or less to `status.log`
-    //
-    new transports.File({ filename: 'logs/error.log', level: 'error' }),
-    new transports.File({ filename: 'logs/status.log' }),
-  ],
-  exceptionHandlers: [new transports.File({ filename: 'logs/exceptions.log' })],
+  defaultMeta: { service: 'perishable_inventory_server' },
+  exitOnError: false
 });
 
 //
@@ -24,7 +18,23 @@ if (env.NODE_ENV !== 'production') {
   logger.add(
     new transports.Console({
       format: format.simple(),
-    })
+    }),
   );
-}
+  logger.add(new transports.File({ filename: 'logs/error.log', level: 'error' }));
+  logger.add(new transports.File({ filename: 'logs/status.log' }));
+  logger.exceptions.handle(new transports.File({ filename: 'logs/exceptions.log' }));
 
+}else{
+  // log to papertrail
+  const options = {
+    app_name: "perishable_inventory_server",
+    host: 'logs3.papertrailapp.com',
+    port: 52516,
+    localhost: os.hostname(),
+    eol: '\n',
+  };
+
+  logger.add(new transports.Syslog(options));
+  logger.exceptions.handle(new transports.Syslog(options));
+
+}
