@@ -63,39 +63,37 @@ const sellItem = asyncHandler(async (req: ISellItemRequest, res: Response) => {
     },
   });
 
-  const nonExpiredQuantity = inventoryItem?.lots?.reduce((total, _lot)=> total += _lot?.quantity, 0) || 0!;
+  const nonExpiredQuantity = inventoryItem?.lots?.reduce((acc, _lot)=> acc += _lot?.quantity, 0) || 0!;
 
   if(!inventoryItem || quantity > nonExpiredQuantity){
-    return res.status(422).json({
+    return res.status(400).json({
       status: 'failed',
       message: `Can't sell more than the non-expired quantity of the ${item} item. avaliable quantity ${nonExpiredQuantity}`
     })
   }
 
-  if (inventoryItem) {
+  let remainingQuantity = quantity;
 
-    let remainingQuantity = quantity;
+  for (const lot of inventoryItem.lots) {
 
-    for (const lot of inventoryItem.lots) {
+    if (lot.quantity >= remainingQuantity) {
+      // lot can accomodate quantity
+      await prisma.lot.update({
+        where: { id: lot.id },
+        data: { quantity: { decrement: remainingQuantity } },
+      });
+      break;
 
-      if (lot.quantity >= remainingQuantity) {
-        // lot can accomodate quantity
-        await prisma.lot.update({
-          where: { id: lot.id },
-          data: { quantity: { decrement: remainingQuantity } },
-        });
-        break;
+    } else {
+      // sell quantity is less than quantity in a particular lot
+      await prisma.lot.delete({ where: { id: lot.id } });
+      remainingQuantity -= lot.quantity;
 
-      } else {
-        // sell quantity is less than quantity in a particular lot
-        await prisma.lot.delete({ where: { id: lot.id } });
-        remainingQuantity -= lot.quantity;
-
-      }
     }
   }
 
   return res.json({});
+  
 })
 
 /**
@@ -117,7 +115,8 @@ const getItemQuantity = asyncHandler(async (req: IGetItemQuantityRequest, res: R
         where: { 
           expiry: { gte: new Date() } 
         }, 
-        orderBy: { expiry: 'asc' } 
+        orderBy: { expiry: 'asc' },
+        select: { quantity: true, expiry: true },
       }
     },
   });
@@ -125,7 +124,7 @@ const getItemQuantity = asyncHandler(async (req: IGetItemQuantityRequest, res: R
   if (inventoryItem && inventoryItem.lots.length > 0) {
     // validTill - lots closest to expiration
     const validTill = inventoryItem?.lots[0]?.expiry.getTime();
-    const quantity = inventoryItem.lots.reduce((acc, lot) => acc + lot.quantity, 0);
+    const quantity = inventoryItem?.lots?.reduce((acc, lot) => acc + lot.quantity, 0);
 
     return res.json({
       quantity,
