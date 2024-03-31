@@ -3,7 +3,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testRegex: ".test.ts$",
+  testRegex: ".spec.ts$",
   coverageDirectory: "../coverage",
   rootDir: "./src",
   setupFiles: [
