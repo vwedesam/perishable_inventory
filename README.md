@@ -58,7 +58,6 @@ A simple Nodejs Server for managing perishable inventory
 - ***Environment variables*** using `dotenv`
 - ***Compression*** with gzip
 - ***Linting and enforced code style*** using Eslint and Prettier
-- ***Containerization*** with `Docker`
 
 <!-- API Documentation -->
 ### API Documentation
@@ -155,22 +154,6 @@ Start the server in production mode
 
 ```bash
   npm start
-```
-
-<!-- Run with Docker -->
-### Run with Docker
-
-Build the container
-
-```bash
-  cd perishable_inventory
-  docker build . -t perishable_inventory    
-```
-
-Start the container
-
-```bash
-  docker run -p <port you want the container to run at>:4040 -d perishable_inventory    
 ```
 
 <!-- Contact -->
