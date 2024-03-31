@@ -26,7 +26,6 @@
   * [Linting](#linting)
   * [Running Tests](#running-tests)
   * [Run Locally](#run-locally)
-  * [Run with Docker](#run-with-docker)
 - [Contact](#contact)
   
 
