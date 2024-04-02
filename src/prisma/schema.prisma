@@ -41,7 +41,10 @@ model Lot {
   item       InventoryItem @relation(fields: [itemId], references: [id])
   createdAt  DateTime @default(now())
 
+  @@index([itemId], name: "idx_lot_itemId")     // Add index to the itemId column
   @@index([expiry], name: "idx_lot_expiry")     // Add index to the expiry column
+  // @@index([quantity], name: "idx_lot_quantity")     // Add index to the expiry column
+  @@index([expiry, quantity], name: "idx_lot_expiry_quantity") // Add index to the both expiry and quantity column
 
   @@map("lots")
 }

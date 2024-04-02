@@ -58,7 +58,7 @@ const sellItem = asyncHandler(async (req: ISellItemRequest, res: Response) => {
     where: { name: item },
     include: { 
       lots: { 
-        where: { expiry: { gte: new Date() } }, 
+        where: { expiry: { gte: new Date() }, quantity : { gt: 0 } }, 
         orderBy: { expiry: 'asc' } } 
     },
   });
@@ -113,7 +113,7 @@ const getItemQuantity = asyncHandler(async (req: IGetItemQuantityRequest, res: R
     include: {
       lots: { 
         where: { 
-          expiry: { gte: new Date() } 
+          expiry: { gte: new Date() }, quantity : { gt: 0 }
         }, 
         orderBy: { expiry: 'asc' },
         select: { quantity: true, expiry: true },

@@ -21,5 +21,17 @@ CREATE TABLE "lots" (
 -- CreateIndex
 CREATE UNIQUE INDEX "inventoryItems_name_key" ON "inventoryItems"("name");
 
+-- CreateIndex
+CREATE INDEX "idx_item_name" ON "inventoryItems"("name");
+
+-- CreateIndex
+CREATE INDEX "idx_lot_itemId" ON "lots"("itemId");
+
+-- CreateIndex
+CREATE INDEX "idx_lot_expiry" ON "lots"("expiry");
+
+-- CreateIndex
+CREATE INDEX "idx_lot_expiry_quantity" ON "lots"("expiry", "quantity");
+
 -- AddForeignKey
 ALTER TABLE "lots" ADD CONSTRAINT "lots_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "inventoryItems"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
