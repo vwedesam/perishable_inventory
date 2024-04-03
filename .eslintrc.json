@@ -6,7 +6,7 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "plugin:promise/recommended"
   ],
   "overrides": [],
   "parser": "@typescript-eslint/parser",
@@ -18,7 +18,7 @@
   "rules": {
     "indent": "off",
     "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
+    "quotes": ["error", "double"],
     "semi": ["error", "always"]
   }
 }

@@ -56,7 +56,7 @@ A simple Nodejs Server for managing perishable inventory
 - ***Logging*** with `winston`
 - ***Environment variables*** using `dotenv`
 - ***Compression*** with gzip
-- ***Linting and enforced code style*** using Eslint and Prettier
+- ***Linting*** using Eslint
 
 <!-- API Documentation -->
 ### API Documentation
@@ -121,14 +121,6 @@ Go to the project directory
   # fix ESLint errors
   npm run lint:fix
 
-  # run prettier
-  npm run code:check
-
-  # fix prettier errors
-  npm run code:format
-  
-  # fix prettier errors in specific file
-  npm run code:format:specific-file <file-name>
 ```
    
 <!-- Running Tests -->
