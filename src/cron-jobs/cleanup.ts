@@ -11,10 +11,11 @@ async function cleanupExpiredRecords() {
 
 cleanupExpiredRecords()
   .then(() => {
-    logger.info('Expired records cleaned up successfully.');
+    logger.info("Expired records cleaned up successfully.");
     process.exit(0);
+    return;
   })
   .catch((error) => {
-    logger.error('Error cleaning up expired records:', error);
+    logger.error("Error cleaning up expired records:", error);
     process.exit(1);
   });

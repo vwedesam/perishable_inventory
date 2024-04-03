@@ -16,5 +16,5 @@ export const parseError = (error: any): { errorCode: number, errorMsg: string } 
     }
 
     return { errorCode, errorMsg: errorMsg };
-}
+};
 

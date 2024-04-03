@@ -9,8 +9,8 @@ export const errorMiddleware = (err: any, req: Request, res: Response, next: Nex
     const { errorCode, errorMsg } = parseError(err);
     
     return res.status(errorCode).json({ 
-        status: 'error',
+        status: "error",
         message: errorMsg
     });
 
-}
+};

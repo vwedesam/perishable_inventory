@@ -1,7 +1,7 @@
-import type { Response } from 'express';
-import prisma from '../prisma';
-import type { IAddItemRequest, IGetItemQuantityRequest, ISellItemRequest } from '../types';
-const asyncHandler = require('express-async-handler')
+import type { Response } from "express";
+import prisma from "../prisma";
+import type { IAddItemRequest, IGetItemQuantityRequest, ISellItemRequest } from "../types";
+const asyncHandler = require("express-async-handler");
 
 /**
  * Add a lot of item to the system
@@ -39,7 +39,7 @@ const addItem = asyncHandler(async (req: IAddItemRequest, res: Response) => {
 
   return res.json({});
 
-})
+});
 
 /**
  * Sell a quantity of an item and reduce its inventory from the database.
@@ -59,7 +59,7 @@ const sellItem = asyncHandler(async (req: ISellItemRequest, res: Response) => {
     include: { 
       lots: { 
         where: { expiry: { gte: new Date() }, quantity : { gt: 0 } }, 
-        orderBy: { expiry: 'asc' } } 
+        orderBy: { expiry: "asc" } } 
     },
   });
 
@@ -67,9 +67,9 @@ const sellItem = asyncHandler(async (req: ISellItemRequest, res: Response) => {
 
   if(!inventoryItem || quantity > nonExpiredQuantity){
     return res.status(400).json({
-      status: 'failed',
+      status: "failed",
       message: `Can't sell more than the non-expired quantity of the ${item} item. avaliable quantity ${nonExpiredQuantity}`
-    })
+    });
   }
 
   let remainingQuantity = quantity;
@@ -94,7 +94,7 @@ const sellItem = asyncHandler(async (req: ISellItemRequest, res: Response) => {
 
   return res.json({});
   
-})
+});
 
 /**
  * Get non-expired quantity of the item from the system
@@ -115,7 +115,7 @@ const getItemQuantity = asyncHandler(async (req: IGetItemQuantityRequest, res: R
         where: { 
           expiry: { gte: new Date() }, quantity : { gt: 0 }
         }, 
-        orderBy: { expiry: 'asc' },
+        orderBy: { expiry: "asc" },
         select: { quantity: true, expiry: true },
       }
     },
@@ -140,10 +140,10 @@ const getItemQuantity = asyncHandler(async (req: IGetItemQuantityRequest, res: R
 
   }
 
-})
+});
 
 export default {
   addItem,
   sellItem,
   getItemQuantity
-}
+};
