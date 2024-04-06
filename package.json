@@ -12,7 +12,7 @@
     "db:cleanup": "node ./dist/cron-jobs/cleanup.js",
     "migrate": "npx prisma migrate dev --schema=./src/prisma/schema.prisma ",
     "generate": "npx prisma generate --schema=./src/prisma/schema.prisma ",
-    "dev": "npm run watch & NODE_ENV=development DEBUG=express:* nodemon .",
+    "dev": "npm run generate && npm run watch & NODE_ENV=development DEBUG=express:* nodemon .",
     "build": "tsc --project './tsconfig.json'",
     "start": "npm run build && NODE_ENV=production node .",
     "watch": "tsc --project './tsconfig.json' --watch",

@@ -107,7 +107,6 @@
     "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
     "ignoreDeprecations": "5.0"
   },
-  "extends": "@tsconfig/node-lts-strictest-esm/tsconfig.json",
   "exclude": ["node_modules"],
   "include": [
     "./src/**/*.tsx",
