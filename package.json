@@ -18,7 +18,8 @@
     "watch": "tsc --project './tsconfig.json' --watch",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint --fix --ext src/**/*.ts",
-    "test": "jest"
+    "test": "jest",
+    "test:e2e": "jest --testRegex='e2e.test.(ts|js)$' "
   },
   "dependencies": {
     "@prisma/client": "^5.10.2",
