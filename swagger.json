@@ -10,7 +10,7 @@
     },
     "servers": [
       {
-        "url": "http://localhost:4040"
+        "url": "https://perishable-inventory-t4bcr.ondigitalocean.app"
       }
     ],
     "tags": [
