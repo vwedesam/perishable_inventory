@@ -16,6 +16,7 @@
     "build": "tsc --project './tsconfig.json'",
     "start": "npm run build && NODE_ENV=production node .",
     "watch": "tsc --project './tsconfig.json' --watch",
+    "postinstall": "npm run generate",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint --fix --ext src/**/*.ts",
     "test": "jest",
