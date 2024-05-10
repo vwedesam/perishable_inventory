@@ -28,8 +28,8 @@ if (env.NODE_ENV !== "production") {
   // log to papertrail
   const options = {
     app_name: "perishable_inventory_server",
-    host: "logs3.papertrailapp.com",
-    port: 52516,
+    host: env.PAPERTRAIL_HOST,
+    port: env.PAPERTRAIL_PORT,
     localhost: os.hostname(),
     eol: "\n",
   };

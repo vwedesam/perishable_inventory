@@ -65,6 +65,13 @@ A simple Nodejs Server for managing perishable inventory
   http://localhost:4040/docs
 ```
 
+| Method | Endpoint          | Description                        |
+|--------|-------------------|------------------------------------|
+| GET    | /:item/quantity   | get non-expired quantity of the item from the system            |
+| POST   | /:item/add        | Add a lot of :item to the system   |
+| POST   | /:item/sell       | sell a quantity of an item and reduce its inventory from the database.  |
+
+
 <!-- Env Variables -->
 ### Environment Variables
 
@@ -72,13 +79,12 @@ To run this project, you will need to add the following environment variables to
 
 `DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE`
 
-`NODE_ENV`
+`PAPERTRAIL_HOST=***.papertrailapp.com`
+`PAPERTRAIL_PORT=****`
 
-`PORT`
+`NODE_ENV=development|production`
 
-`CORS_ORIGIN`
-
-See .env.example for further details
+See .env.example
 
 <!-- Getting Started -->
 ## Getting Started
@@ -109,7 +115,9 @@ Go to the project directory
 ### Db Setup
 
 ```bash
-  npm run migrate
+
+  npm run postinstall
+
 ```
 
 ### Linting
