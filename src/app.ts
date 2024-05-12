@@ -26,11 +26,17 @@ app.use(express.json())
 // Helmet is used to secure this app by configuring the http-header
 app.use(helmet());
 
+// Express behind proxies]
+app.set('trust proxy', 1)
+
 // Compression is used to reduce the size of the response body
 app.use(compression({ filter: compressFilter }));
 
 // rate limiter
 app.use(limiter);
+
+// ip address checker
+app.get('/ip', (request, response) => response.send(request.ip))
 
 // Swagger docs
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
