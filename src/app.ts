@@ -27,7 +27,7 @@ app.use(express.json())
 app.use(helmet());
 
 // Express behind proxies]
-app.set('trust proxy', 1)
+app.set('trust proxy', 2)
 
 // Compression is used to reduce the size of the response body
 app.use(compression({ filter: compressFilter }));
