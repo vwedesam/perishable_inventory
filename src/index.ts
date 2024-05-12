@@ -4,8 +4,8 @@ import { logger } from './middleware';
 const cron = require('node-cron');
 const { spawn } = require('child_process');
 
-// Schedule the cleanup job to run every 5 minutes
-cron.schedule('0 */5 * * * *', () => {
+// Schedule the cleanup job to run every 60 minutes(1hr)
+cron.schedule('0 */60 * * * *', () => {
   logger.info('Running cleanup job...');
   const cleanupProcess = spawn('npm', ['run', 'db:cleanup'], { stdio: 'inherit' });
 
